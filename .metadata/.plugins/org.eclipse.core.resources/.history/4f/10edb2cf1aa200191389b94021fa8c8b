@@ -1,0 +1,55 @@
+package com.bridgelabz.login.Controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.bridgelabz.login.DTO.UserI;
+import com.bridgelabz.login.DTO.UserPOJO;
+import com.bridgelabz.login.Services.ServerOperationsImplementation;
+
+@WebServlet("/Login")
+public class Login extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+	ServerOperationsImplementation server = new ServerOperationsImplementation();
+    public Login() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String uname = request.getParameter("username");
+		String password = request.getParameter("password");
+		String submittype = request.getParameter("submit");
+		UserPOJO user = server.getUser(uname, password);
+		
+		if(submittype.equalsIgnoreCase("Login") && user != null) {
+			request.setAttribute("Message",user.getUsername());
+			request.getRequestDispatcher("Welcome.jsp").forward(request, response);
+		}
+		else if(submittype.equalsIgnoreCase("Register")) {
+			user.setName(request.getParameter("name"));
+			user.setUsername(uname);
+			user.setPassword(password);
+			user.setRetypepassword(request.getParameter("repassword"));
+			server.addUser(user);
+			request.setAttribute("RegistrationMessage","Registration Successful,\nClick on Login");
+			request.getRequestDispatcher("Login.jsp").forward(request, response);
+		}
+		else {
+			request.setAttribute("Message","Data Not Found,\nClick on Register");
+			request.getRequestDispatcher("Login.jsp").forward(request, response);
+		}
+	
+		doGet(request, response);
+	}
+
+}

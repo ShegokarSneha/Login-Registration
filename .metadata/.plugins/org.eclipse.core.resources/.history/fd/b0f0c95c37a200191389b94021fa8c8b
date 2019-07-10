@@ -1,0 +1,11 @@
+package com.bridgelabz.login.Services;
+
+import com.bridgelabz.login.DTO.UserI;
+import com.bridgelabz.login.DTO.UserPOJO;
+
+public interface ServerOperations {
+	
+	public int addUser(UserPOJO u);
+	public UserI getUser(String username, String password);
+
+}

@@ -1,0 +1,12 @@
+package com.bridgelabz.login.Services;
+
+import java.sql.SQLException;
+
+import com.bridgelabz.login.DTO.UserPOJO;
+
+public interface ServerOperations {
+	
+	public int addUser(UserPOJO u);
+	public UserPOJO getUser(String username, String password);
+
+}

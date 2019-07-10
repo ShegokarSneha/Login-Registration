@@ -1,0 +1,33 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+	<center>
+		<h4>Login Register</h4>
+		<form method="post" action="Login Register">
+			<table >
+
+				<tr>
+					<td>UserName :</td>
+					<td><input type="text" name="usernsme"></td>
+				</tr>
+				<tr>
+					<td>Password :</td>
+					<td><input type="password" name="password"></td>
+				</tr>
+				<tr>
+					<td><p align = "center"><input type="Submit" name="Submit" value="Login"></p></td>
+					<td>Not yet a Member? <a href="Register.jsp">Register</a></td>
+				</tr>
+			</table>
+		</form>
+	</center>
+
+</body>
+</html>

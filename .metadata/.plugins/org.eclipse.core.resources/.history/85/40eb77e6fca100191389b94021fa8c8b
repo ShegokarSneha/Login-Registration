@@ -1,0 +1,7 @@
+package com.bridgelabz.login.DAO;
+
+public interface UserDAO {
+	public int insertUser(UserPOJO u);
+	public UserPOJO getUser(String username, String password);
+
+}

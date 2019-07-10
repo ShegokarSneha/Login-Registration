@@ -1,0 +1,36 @@
+package com.bridgelabz.login.DAO;
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class ConnectionDAO {
+	static String query = "Select * From Login Where UserName = ? And Password = ?";
+	static String url = "jdbc:mysql://localhost:3306/Login";
+	static String password = "test";
+	static String user = "root";
+	
+	
+	public boolean Check(String username, String pass) throws ClassNotFoundException {
+		boolean count = false;
+	 	try {
+	 		Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection(url, user, password);
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, username);
+			ps.setString(2, pass);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				count = true;
+				}
+			} 
+	 	catch (SQLException e) {
+			e.printStackTrace();
+			}
+		return count;
+	 	}
+	}
+

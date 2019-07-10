@@ -1,0 +1,56 @@
+package com.bridgelabz.login.Controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.bridgelabz.login.DTO.UserPOJO;
+import com.bridgelabz.login.Services.ServerOperationsImplementation;
+
+@WebServlet("/Login")
+public class Login extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+	ServerOperationsImplementation server = new ServerOperationsImplementation();
+    public Login() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String uname = request.getParameter("username");
+		String password = request.getParameter("password");
+		String name = request.getParameter("name");
+		String repass = request.getParameter("confirmpassword");
+		String submittype = request.getParameter("submit");
+		System.out.println(name + uname + repass + password);
+		UserPOJO user = server.getUser(uname, password);
+		
+		if(submittype.equalsIgnoreCase("Login") && user.getUsername() != null && user.getPassword() != null) {
+			request.setAttribute("Message",user.getUsername());
+			request.getRequestDispatcher("Welcome.jsp").forward(request, response);
+		}
+		else if(submittype.equalsIgnoreCase("Register")) {
+			//user.setName();
+			user.setUsername(uname);
+			user.setPassword(password);
+			user.setRetypepassword(request.getParameter("repassword"));
+			server.addUser(user);
+			System.out.println("registeredsuccessfully");
+			request.setAttribute("RegistrationMessage","Registration Successful,\nClick on Login to Continue");
+			request.getRequestDispatcher("Login.jsp").forward(request, response);
+			
+		}
+		else {
+			request.setAttribute("Message","Data Not Found,\nClick on Register");
+			request.getRequestDispatcher("Login.jsp").forward(request, response);
+		}
+	}
+
+}

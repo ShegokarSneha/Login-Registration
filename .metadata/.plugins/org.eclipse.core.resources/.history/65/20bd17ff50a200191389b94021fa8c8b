@@ -1,0 +1,46 @@
+package com.bridgelabz.login.Services;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import com.bridgelabz.login.DAO.ConnectionDAO;
+import com.bridgelabz.login.DTO.UserPOJO;
+
+public class OperationsImplementation implements Operations {
+	public boolean Registration(UserPOJO user) {
+		boolean count = false;
+		try {
+			String query = "Insert Into Login (FName,LName,UserName,Password,EmailId) Values (?,?,?,?,?);";
+			Connection con = ConnectionDAO.getConnection();
+			
+			String fname = user.getFname();
+			String lname = user.getLname();
+			String username = user.getUsername();
+			String email = user.getEmail();
+			String pass = user.getPassword();
+			PreparedStatement preparedstatement = con.prepareStatement(query);
+			preparedstatement.setString(1, fname);
+			preparedstatement.setString(2, lname);
+			preparedstatement.setString(3, username);
+			preparedstatement.setString(4, pass);
+			preparedstatement.setString(5, email);
+			ResultSet rs = preparedstatement.executeQuery()
+			if(fname == null || lname == null || username == null || 
+					email == null || pass == null) {
+				System.out.println("Please Fill all The Details Properly....");
+			}
+			if(rs != null) {
+				count = true;
+			}
+			else {
+				count = false;
+			}
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+		}
+}
